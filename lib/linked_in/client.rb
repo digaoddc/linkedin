@@ -9,12 +9,14 @@ module LinkedIn
     include Api::UpdateMethods
     include Search
 
-    attr_reader :consumer_token, :consumer_secret, :consumer_options
+    attr_accessor *Configuration::VALID_OPTIONS_KEYS
 
-    def initialize(ctoken=LinkedIn.token, csecret=LinkedIn.secret, options={})
-      @consumer_token   = ctoken
-      @consumer_secret  = csecret
-      @consumer_options = options
+    #pass a hash of options to override default configuration
+    def initialize(options={})
+        options = LinkedIn.options.merge(options)
+        Configuration::VALID_OPTIONS_KEYS.each do |key|
+          send("#{key}=", options[key])
+        end
     end
 
     #

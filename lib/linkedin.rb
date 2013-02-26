@@ -1,9 +1,11 @@
 require 'oauth'
 
 module LinkedIn
+  autoload :Configuration, "linked_in/configuration"
+  extend Configuration
 
-  class << self
-    attr_accessor :token, :secret, :default_profile_fields
+  #class << self
+    #attr_accessor :token, :secret, :default_profile_fields
 
     # config/initializers/linkedin.rb (for instance)
     #
@@ -16,11 +18,7 @@ module LinkedIn
     # elsewhere
     #
     # client = LinkedIn::Client.new
-    def configure
-      yield self
-      true
-    end
-  end
+  #end
 
   autoload :Api,     "linked_in/api"
   autoload :Client,  "linked_in/client"
@@ -29,4 +27,5 @@ module LinkedIn
   autoload :Helpers, "linked_in/helpers"
   autoload :Search,  "linked_in/search"
   autoload :Version, "linked_in/version"
+
 end
