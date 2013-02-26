@@ -3,39 +3,45 @@ module LinkedIn
 
     module Request
 
-      DEFAULT_HEADERS = {
-        'x-li-format' => 'json'
-      }
-
       API_PATH = '/v1'
 
       protected
 
         def get(path, options={})
-          response = access_token.get("#{API_PATH}#{path}", DEFAULT_HEADERS.merge(options))
-          raise_errors(response)
-          response.body
+          request(:get, path, options, false, false)
         end
 
         def post(path, body='', options={})
-          response = access_token.post("#{API_PATH}#{path}", body, DEFAULT_HEADERS.merge(options))
-          raise_errors(response)
-          response
+          request(:post, path, options, false, false)
         end
 
         def put(path, body, options={})
-          response = access_token.put("#{API_PATH}#{path}", body, DEFAULT_HEADERS.merge(options))
-          raise_errors(response)
-          response
+          request(:put, path, options, false, false)
         end
 
         def delete(path, options={})
-          response = access_token.delete("#{API_PATH}#{path}", DEFAULT_HEADERS.merge(options))
-          raise_errors(response)
-          response
+          request(:delete, path, options, false, false)
         end
 
       private
+
+         def request(method, path, options, raw=false, unformatted=false)
+          response = connection(raw).send(method) do |request|
+            path = formatted_path(path) unless unformatted
+            case method
+            when :get, :delete
+              request.url(path, options)
+            when :post, :put
+              request.path = path
+              request.body = options unless options.empty?
+            end
+          end
+          raw ? response : response.body
+        end
+
+        def formatted_path(path)
+          path = API_PATH + path
+        end
 
         def raise_errors(response)
           # Even if the json answer contains the HTTP status code, LinkedIn also sets this code

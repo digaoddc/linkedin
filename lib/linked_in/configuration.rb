@@ -38,7 +38,7 @@ module LinkedIn
 	    DEFAULT_USER_AGENT = "LinkedIn Ruby Gem #{LinkedIn::VERSION::STRING}".freeze
 
 	    #The default profile field to use in search
-	    DEFAULT_PROFILE_FIELDS  = ['education', 'positions']
+	    DEFAULT_PROFILE_FIELDS  = ['first-name','last-name','positions']
 
         # By default, don't set an application ID
 	    DEFAULT_CLIENT_ID = nil

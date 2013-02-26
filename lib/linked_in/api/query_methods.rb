@@ -57,8 +57,7 @@ module LinkedIn
           headers = options.delete(:headers) || {}
           params  = options.map { |k,v| "#{k}=#{v}" }.join("&")
           path   += "?#{params}" if not params.empty?
-
-          Mash.from_json(get(path, headers))
+          get(path, headers)
         end
 
         def person_path(options)
