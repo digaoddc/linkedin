@@ -47,11 +47,10 @@ module LinkedIn
 
         def simple_query(path, options={})
           fields = options.delete(:fields) || LinkedIn.default_profile_fields
-
           if options.delete(:public)
             path +=":public"
           elsif fields
-            path +=":(#{fields.map{ |f| f.to_s.gsub("_","-") }.join(',')})"
+            path +=":(#{fields.map{ |f| f.to_s.gsub("_","-") }.join(',')})" if fields != []
           end
 
           headers = options.delete(:headers) || {}
