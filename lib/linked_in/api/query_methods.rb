@@ -56,7 +56,7 @@ module LinkedIn
           headers = options.delete(:headers) || {}
           params  = options.map { |k,v| "#{k}=#{v}" }.join("&")
           path   += "?#{params}" if not params.empty?
-          get(path, headers)
+          Hashie::Mash.new get(path, headers)
         end
 
         def person_path(options)

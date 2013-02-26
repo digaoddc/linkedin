@@ -15,7 +15,7 @@ module LinkedIn
 				connection.use Faraday::Request::UrlEncoded
 				unless raw
 					connection.use Faraday::Response::ParseJson
-					connection.use FaradayMiddleware::Mashify
+					#connection.use FaradayMiddleware::Mashify
 				end
 				connection.adapter(adapter)
 			end

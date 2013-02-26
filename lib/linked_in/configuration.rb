@@ -6,6 +6,7 @@ module LinkedIn
 	      :client_id,
 	      :client_secret,
 	      :access_token,
+	      :redirect_uri,
 	      :endpoint,
 	      :format,
 	      :user_agent,
@@ -46,6 +47,8 @@ module LinkedIn
 	    # By default, don't set an application secret
 	    DEFAULT_CLIENT_SECRET = nil
 
+	    DEFAULT_REDIRECT_URI = nil
+	    
 	    attr_accessor *VALID_OPTIONS_KEYS
 
 	    # When this module is extended, set all configuration options to their default values
@@ -72,6 +75,7 @@ module LinkedIn
 	      self.format         = DEFAULT_FORMAT
 	      self.user_agent     = DEFAULT_USER_AGENT
 	      self.default_profile_fields = DEFAULT_PROFILE_FIELDS
+	      self.redirect_uri = DEFAULT_REDIRECT_URI
 	    end
 	end
 end
