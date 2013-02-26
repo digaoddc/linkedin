@@ -1,4 +1,5 @@
 require 'cgi'
+require File.expand_path('../connection', __FILE__)
 
 module LinkedIn
 
@@ -8,7 +9,8 @@ module LinkedIn
     include Api::QueryMethods
     include Api::UpdateMethods
     include Search
-
+    include Connection
+    
     attr_accessor *Configuration::VALID_OPTIONS_KEYS
 
     #pass a hash of options to override default configuration
