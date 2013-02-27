@@ -3,14 +3,14 @@ module LinkedIn
 
     module Authorization
       AUTH_URL         = "https://www.linkedin.com/uas/oauth2/authorization"
-      ACCESS_TOKEN_URL = "https://api.linkedin.com"
+      ACCESS_TOKEN_URL = "https://www.linkedin.com"
 
      def authorize_url(options={})
         uri_with_params({
           :base          => AUTH_URL,
           :response_type => "code",
           :client_id     => client_id,
-          :state         => "DCEEFWF45453sdffef424s7fs7f",
+          :state         => SecureRandom.hex(15),
           :redirect_uri  => redirect_uri,
           :scope         => "rw_nus"
         }.merge!(options))
@@ -18,22 +18,24 @@ module LinkedIn
 
      def new_access_token code
         options = {
-          :headers => {'Accept' => "application/#{format}; charset=utf-8", 'User-Agent' => user_agent},
+          #:headers => {'Accept' => "application/#{format}; charset=utf-8", 'User-Agent' => user_agent},
           :ssl => {:verify => true},
           :url => ACCESS_TOKEN_URL,
         }
         con = Faraday::Connection.new(options) do |connection|
-          connection.use Faraday::Request::UrlEncoded
-           connection.use Faraday::Response::ParseJson
-           connection.adapter(:net_http) 
+            connection.use Faraday::Request::UrlEncoded
+            #connection.use FaradayMiddleware::OAuth2, client_id, access_token
+            connection.use Faraday::Response::ParseJson
+            connection.use Faraday::Adapter::NetHttp
         end
-        con.get "uas/oauth2/accessToken",{
+        response = con.post "/uas/oauth2/accessToken",
+          {
             :grant_type    => "authorization_code",
             :code          => code,
             :redirect_uri  => redirect_uri,
             :client_id     => client_id,
             :client_secret => client_secret
-         }
+          }
      end
 
       private
