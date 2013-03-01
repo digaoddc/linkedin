@@ -52,10 +52,10 @@ module LinkedIn
           elsif fields
             path +=":(#{fields.map{ |f| f.to_s.gsub("_","-") }.join(',')})" if fields != []
           end
-
           headers = options.delete(:headers) || {}
           params  = options.map { |k,v| "#{k}=#{v}" }.join("&")
-          path   += "?#{params}" if not params.empty?
+          symbol  = path.match( /\?/) ? "&" : "?"
+          path   += "#{symbol}#{params}" if not params.empty?
           Hashie::Mash.new get(path, headers)
         end
 
