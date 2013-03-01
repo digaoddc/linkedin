@@ -24,9 +24,9 @@ module LinkedIn
         }
         con = Faraday::Connection.new(options) do |connection|
             connection.use Faraday::Request::UrlEncoded
-            #connection.use FaradayMiddleware::OAuth2, client_id, access_token
             connection.use Faraday::Response::ParseJson
             connection.use Faraday::Adapter::NetHttp
+            connection.use LinkedinFaradayMiddleware::RaiseHttpException
         end
         response = con.post "/uas/oauth2/accessToken",
           {
@@ -36,6 +36,7 @@ module LinkedIn
             :client_id     => client_id,
             :client_secret => client_secret
           }
+        response.body
      end
 
       private

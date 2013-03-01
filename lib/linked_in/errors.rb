@@ -12,6 +12,7 @@ module LinkedIn
     class GeneralError           < LinkedInError; end
     class AccessDeniedError      < LinkedInError; end
     class TokenExpiredError      < LinkedInError; end
+    class BadRequestError        < LinkedInError; end
 
     class UnavailableError       < StandardError; end
     class InformLinkedInError    < StandardError; end

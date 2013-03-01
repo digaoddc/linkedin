@@ -1,4 +1,5 @@
 require File.expand_path('../faraday/oauth2.rb', __FILE__)
+require File.expand_path('../faraday/raise_http_exception.rb', __FILE__)
 
 module LinkedIn
 	module Connection
@@ -11,7 +12,7 @@ module LinkedIn
 				:url => endpoint,
 			}
 			Faraday::Connection.new(options) do |connection|
-				connection.use FaradayMiddleware::OAuth2, client_id, access_token
+				connection.use LinkedinFaradayMiddleware::OAuth2, client_id, access_token
 				connection.use Faraday::Request::UrlEncoded
 				unless raw
 					connection.use Faraday::Response::ParseJson

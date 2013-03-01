@@ -1,7 +1,7 @@
 require 'faraday'
 
 # @private
-module FaradayMiddleware
+module LinkedinFaradayMiddleware
   # @private
   class OAuth2 < Faraday::Middleware
     def call(env)
