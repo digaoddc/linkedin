@@ -1,3 +1,5 @@
+require File.expand_path('../version.rb', __FILE__)
+
 module LinkedIn
 	module Configuration
 
