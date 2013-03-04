@@ -58,14 +58,14 @@ module LinkedIn
           case response["status"].to_i
           when 401
             data = Hashie::Mash.new response
-            raise LinkedIn::Errors::UnauthorizedError.new(data), "(#{data.status}): #{data.message}"
-          when 400
-            data = Hashie::Mash.new response
-            if data.message == "This token has expired. Renew it"
+            if data.message == "The token used in the request is expired."
               raise LinkedIn::Errors::TokenExpiredError.new(data), "(#{data.status}): #{data.message}"  
             else
-              raise LinkedIn::Errors::GeneralError.new(data), "(#{data.status}): #{data.message}"
+              raise LinkedIn::Errors::UnauthorizedError.new(data), "(#{data.status}): #{data.message}"
             end
+          when 400
+            data = Hashie::Mash.new response
+            raise LinkedIn::Errors::GeneralError.new(data), "(#{data.status}): #{data.message}"
           when 403
             data = Hashie::Mash.new response
             raise LinkedIn::Errors::AccessDeniedError.new(data), "(#{data.status}): #{data.message}"
